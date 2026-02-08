@@ -1,0 +1,72 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background-color: #fff;
+}
+
+.page-container {
+    display: flex;
+    min-height: 100vh;
+    align-items: flex-start;
+}
+
+.left-panel {
+    background-color: #fff;
+    padding: 20px 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.vyshyvka {
+    display: block;
+    width: 220px;
+    height: 820px;
+}
+
+.right-panel {
+    flex: 1;
+    background-color: #fff;
+    padding: 40px 60px;
+}
+
+
+.content {
+    flex: 1;
+    padding: 40px 60px;
+    background-color: #fff;
+}
+
+header {
+    margin-bottom: 60px;
+}
+
+.header-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+h1 {
+    font-size: 40px;
+    font-weight: 700;
+    color: #8b0000;
+    /* font-weight: bold; */
+}
+
+
+
+.motto {
+    font-size: 50px;
+    color: #333;
+    font-weight: bold;
+    line-height: 1.6;
+} 
+
+
+
