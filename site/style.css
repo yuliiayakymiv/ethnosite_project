@@ -1,0 +1,63 @@
+/* General styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #ffffff;
+}
+
+/* Embroidery */
+.ornament {
+    background-color: #f0f0f0;
+    padding: 10px;
+    font-size: 18px;
+}
+
+/* Header */
+.header {
+    padding: 20px;
+    background-color: #fafafa;
+    border-bottom: 1px solid #ddd;
+}
+
+/* The name of the site */
+.site-title {
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* Navigation */
+.navigation {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Buttons */
+.nav-button {
+    text-decoration: none;
+    color: white;
+    background-color: #6b4f4f;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+/* Active button */
+.nav-button.active {
+    background-color: #a35d5d;
+}
+
+/* Content */
+.content {
+    padding: 40px;
+}
+
+/* Blocks */
+.news-feed,
+.form-placeholder {
+    margin-top: 20px;
+    padding: 25px;
+    border: 2px dashed #ccc;
+}
