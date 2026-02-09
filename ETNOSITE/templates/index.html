@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Головна сторінка</h2>
-<p>Ласкаво просимо до Етносайту!</p>
+<div class="buttons">
+    <a href="{{ url_for('news') }}" class="btn btn-news">Новини</a>
+    <a href="{{ url_for('add') }}" class="btn btn-add">+ Додати</a>
+</div>
 {% endblock %}
