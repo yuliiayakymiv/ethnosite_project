@@ -10,14 +10,21 @@
     <div class="page-container">
 
         <div class="left-panel">
-            <img src="{{ url_for('static', filename='css/photos/vyshyvka1 (1).jpg') }}" alt="Вишиванка" class="vyshyvka">
+            <img src="{{ url_for('static', filename='css/photos/vyshyvka1 (1).jpg') }}"
+                 alt="Вишиванка"
+                 class="vyshyvka">
         </div>
-        
-        
+
         <div class="right-panel">
-            <h1>Етносайт</h1>
-            <p class="motto">Червоне - то любов, а чорне - то журба...</p>
+            <header>
+                <h1>ЕТНОСАЙТ</h1>
+                <p class="motto">"Червоне — то любов, а чорне — то журба..."</p>
+            </header>
+
+            <!-- changing pages -->
+            {% block content %}{% endblock %}
         </div>
+
     </div>
 </body>
 </html>
