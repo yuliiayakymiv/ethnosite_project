@@ -4,6 +4,28 @@
     box-sizing: border-box;
 }
 
+@font-face {
+    font-family: 'Veles';
+    src: url('fonts/Veles-Regular.0.9.2.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'KyivType';
+    src: url('fonts/KyivTypeSans-Heavy.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'KyivTypeSerif';
+    src: url('fonts/KyivTypeSerif-Bold2.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
 body {
     font-family: 'Georgia', 'Times New Roman', serif;
     background-color: #fff;
@@ -34,6 +56,16 @@ body {
     padding: 40px 60px;
 }
 
+/* Маленьке зображення у правому верхньому куті */
+.corner-image {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 140px;
+    height: 140px;
+    object-fit: contain;
+    z-index: 10;
+}
 
 .content {
     flex: 1;
@@ -53,6 +85,7 @@ header {
 }
 
 h1 {
+    font-family: 'KyivType'; 
     font-size: 60px;
     font-weight: 700;
     color: #8b0000;
@@ -62,7 +95,8 @@ h1 {
 
 
 .motto {
-    font-size: 45px;
+    font-size: 43px;
+    font-family: 'Veles';
     color: #333;
     font-weight: bold;
     line-height: 1.6;
@@ -96,7 +130,8 @@ h1 {
 
 .btn {
     text-decoration: none;
-    font-size: 40px;       /* the size of the text */
+    font-family: 'KyivType';
+    font-size: 45px;       /* the size of the text */
     font-weight: bold;
     padding: 40px 90px;    /* the size of the background */
     border-radius: 24px;
@@ -115,6 +150,7 @@ h1 {
 
 /* ========== Стилі для сторінки додавання новини ========== */
 .add-news-container {
+    font-family: 'KyivType';
     max-width: 100%;
 }
 
@@ -208,7 +244,7 @@ h1 {
     padding: 15px;
     border: none;
     border-radius: 12px;
-    font-family: 'Georgia', 'Times New Roman', serif;
+    font-family: 'KyivType';
     font-size: 16px;
     resize: vertical;
     background-color: #fff;
@@ -235,9 +271,9 @@ h1 {
 .form-group input,
 .form-group select {
     padding: 12px 15px;
+    font-family: 'KyivType';
     border: none;
     border-radius: 8px;
-    font-family: 'Georgia', 'Times New Roman', serif;
     font-size: 16px;
     background-color: #fff;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
@@ -274,7 +310,7 @@ h1 {
     font-size: 18px;
     font-weight: 600;
     cursor: pointer;
-    font-family: 'Georgia', 'Times New Roman', serif;
+    font-family: 'KyivType';
     transition: background-color 0.3s ease;
 }
 
