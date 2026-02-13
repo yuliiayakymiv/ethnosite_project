@@ -1,6 +1,108 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Додати новину</h2>
-<p>Тут буде форма додавання.</p>
+<div class="add-news-container">
+    <h2 class="page-title">Новини</h2>
+    <p class="page-subtitle">Останні події та матеріали</p>
+
+    <form class="add-news-form" action="{{ url_for('add') }}" method="POST" enctype="multipart/form-data">
+        <div class="form-row">
+            <!-- Ліва частина з фото -->
+            <div class="form-left">
+                <div class="photo-upload">
+                    <input type="file" id="photo" name="photo" accept="image/*,video/*" style="display: none;">
+                    <label for="photo" class="photo-placeholder">
+                        <img id="preview" src="" alt="" style="display: none; width: 100%; height: 100%; object-fit: cover; border-radius: 12px;">
+                        <span class="upload-text">Клікніть для завантаження фото/відео</span>
+                    </label>
+                </div>
+
+                <div class="text-area-container">
+                    <label for="text">Текст</label>
+                    <textarea id="text" name="text" rows="6" placeholder="Введіть текст новини..."></textarea>
+                </div>
+            </div>
+
+            <!-- Права частина з полями -->
+            <div class="form-right">
+                <div class="form-group">
+                    <label for="name">Ім'я</label>
+                    <input type="text" id="name" name="name" placeholder="Введіть ваше ім'я">
+                </div>
+
+                <div class="form-group">
+                    <label for="title">Назва</label>
+                    <input type="text" id="title" name="title" placeholder="Введіть назву новини">
+                </div>
+
+                <div class="form-group">
+                    <label for="category">Категорія</label>
+                    <select id="category" name="category">
+                        <option value="">Оберіть категорію</option>
+                        <option value="культура">Культура</option>
+                        <option value="традиції">Традиції</option>
+                        <option value="ремесла">Ремесла</option>
+                        <option value="історія">Історія</option>
+                        <option value="мистецтво">Мистецтво</option>
+                        <option value="фольклор">Фольклор</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="region">Область</label>
+                    <select id="region" name="region">
+                        <option value="">Оберіть область</option>
+                        <option value="вінницька">Вінницька</option>
+                        <option value="волинська">Волинська</option>
+                        <option value="дніпропетровська">Дніпропетровська</option>
+                        <option value="донецька">Донецька</option>
+                        <option value="житомирська">Житомирська</option>
+                        <option value="закарпатська">Закарпатська</option>
+                        <option value="запорізька">Запорізька</option>
+                        <option value="івано-франківська">Івано-Франківська</option>
+                        <option value="київська">Київська</option>
+                        <option value="кіровоградська">Кіровоградська</option>
+                        <option value="луганська">Луганська</option>
+                        <option value="львівська">Львівська</option>
+                        <option value="миколаївська">Миколаївська</option>
+                        <option value="одеська">Одеська</option>
+                        <option value="полтавська">Полтавська</option>
+                        <option value="рівненська">Рівненська</option>
+                        <option value="сумська">Сумська</option>
+                        <option value="тернопільська">Тернопільська</option>
+                        <option value="харківська">Харківська</option>
+                        <option value="херсонська">Херсонська</option>
+                        <option value="хмельницька">Хмельницька</option>
+                        <option value="черкаська">Черкаська</option>
+                        <option value="чернівецька">Чернівецька</option>
+                        <option value="чернігівська">Чернігівська</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-submit">Опублікувати</button>
+            <a href="{{ url_for('index') }}" class="btn-cancel">Скасувати</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Попередній перегляд завантаженого зображення
+    document.getElementById('photo').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('preview');
+                const uploadText = document.querySelector('.upload-text');
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+                uploadText.style.display = 'none';
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
 {% endblock %}
