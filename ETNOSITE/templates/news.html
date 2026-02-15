@@ -1,6 +1,31 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Новини</h2>
-<p>Тут буде стрічка новин.</p>
+<h2 class="page-title">Новини</h2>
+<p class="page-subtitle">Останні події та матеріали</p>
+
+<div>
+    {% for n in news_list %}
+        <div style="border:1px solid #ccc; padding:15px; margin:15px 0; border-radius:10px;">
+
+            {% if n.photo %}
+                <img src="{{ url_for('static', filename='uploads/' ~ n.photo) }}"
+                     style="width:200px; height:auto; border-radius:8px; margin-bottom:10px;">
+            {% endif %}
+
+            <h3>{{ n.title }}</h3>
+
+            <p><strong>Автор:</strong> {{ n.name }}</p>
+            <p><strong>Категорія:</strong> {{ n.category }}</p>
+            <p><strong>Регіон:</strong> {{ n.region }}</p>
+
+            <p>{{ n.text }}</p>
+        </div>
+    {% endfor %}
+
+    {% if news_list|length == 0 %}
+        <p>Поки що новин немає.</p>
+    {% endif %}
+</div>
+
 {% endblock %}
