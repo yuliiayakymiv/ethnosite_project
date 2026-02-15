@@ -3,7 +3,7 @@ import os
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 # Створюємо папку для завантажень, якщо її немає
 if not os.path.exists(app.config['UPLOAD_FOLDER']):
@@ -16,18 +16,18 @@ def index():
 
 @app.route('/news')
 def news():
-    return render_template('news.html', news_list=news_list)
+    return render_template('news.html', news_list=news_list[::-1])
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():
     if request.method == 'POST':
-        
+
         name = request.form.get('name')
         title = request.form.get('title')
         category = request.form.get('category')
         region = request.form.get('region')
         text = request.form.get('text')
-        
+
         # Обробка завантаженого файлу
         photo_filename = None
         if 'photo' in request.files:
@@ -35,7 +35,7 @@ def add():
             if photo.filename != '':
                 photo_filename = photo.filename
                 photo.save(os.path.join(app.config['UPLOAD_FOLDER'], photo_filename))
-        
+
         # Додаємо новину до списку
         news_item = {
             'name': name,
@@ -46,7 +46,7 @@ def add():
             'photo': photo_filename
         }
         news_list.append(news_item)
-        
+
         # Перенаправляємо на сторінку новин
         return redirect(url_for('news'))
 
