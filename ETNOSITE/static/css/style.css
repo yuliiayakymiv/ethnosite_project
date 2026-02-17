@@ -1,8 +1,4 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+
 
 @font-face {
     font-family: 'Veles';
@@ -25,6 +21,12 @@
     font-style: normal;
 }
 
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 body {
     font-family: 'Georgia', 'Times New Roman', serif;
@@ -344,5 +346,130 @@ h1 {
     
     .form-right {
         flex: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .page-container {
+        flex-direction: column;  /* вертикально */
+    }
+
+    .left-panel {
+        width: 100%;
+        padding: 0;
+    }
+
+    .vyshyvka {
+        width: 100%;   /* на всю ширину */
+        height: 180px; /* низька горизонтальна смуга */
+        object-fit: cover;
+        object-position: top;
+    }
+
+    .right-panel {
+        width: 100%;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 32px;
+    }
+
+    .motto {
+        font-size: 20px;
+    }
+
+    .buttons {
+        flex-direction: column;
+        gap: 20px;
+        margin-top: 30px;
+    }
+
+    .btn {
+        font-size: 22px;
+        padding: 15px 30px;
+        text-align: center;
+    }
+
+    .corner-image {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+.news-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.news-card {
+    display: flex;
+    gap: 20px;
+    font-family: 'KyivType';
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 12px;
+    background-color: #fef5f5;
+    align-items: flex-start;
+}
+
+.news-photo {
+    width: 200px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.news-content {
+    flex: 1;
+}
+
+.news-title {
+    font-size: 24px;
+    font-family: 'KyivType';
+    color: #8b0000;
+    margin-bottom: 10px;
+}
+
+.news-meta {
+    font-size: 14px;
+    font-family: 'KyivType';
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.news-text {
+    margin-top: 10px;
+    font-family: 'KyivType';
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+}
+.page-title {
+    font-family: 'KyivType';
+}
+.page-subtitle {
+    font-family: 'KyivType';
+}
+.no-news {
+    color: #999;
+    font-size: 18px;
+    font-family: 'KyivType';
+    text-align: center;
+    margin-top: 40px;
+}
+
+/* Адаптив для телефону */
+@media (max-width: 768px) {
+    .news-card {
+        flex-direction: column;
+    }
+
+    .news-photo {
+        width: 100%;
+        height: 200px;
     }
 }
