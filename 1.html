@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Новини - Збереження та виведення дописів</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Стрічка новин</h1>
+        
+        <div class="form-section">
+            <h2>Додати новий допис</h2>
+            <form id="postForm">
+                <input type="text" id="title" placeholder="Заголовок" required>
+                <textarea id="content" placeholder="Текст допису" required></textarea>
+                <button type="submit">Додати допис</button>
+            </form>
+        </div>
+
+        <div class="news-feed">
+            <h2>Новини</h2>
+            <div id="postsContainer">
+                <!-- Дописи будуть додаватися сюди -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
