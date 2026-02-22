@@ -1,31 +1,126 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2 class="page-title">Новини</h2>
-<p class="page-subtitle">Останні події та матеріали</p>
 
-<div>
+<!---Кнопка фільтрів-->
+<div class="filter-wrapper">
+    <!-- Кнопка справа вгорі -->
+    <div class="filter-top">
+        <h2 class="page-title">Новини</h2>
+        <button class="btn-filter btn-add" onclick="toggleFilters()">☰ Фільтри</button>
+    </div>
+    <p class="page-subtitle">Останні події та матеріали</p>
+    
+    <div class="filter-panel" id="filterPanel">
+        <div class="filter-row">
+
+            <div class="filter-group">
+                <label>Область</label>
+                <select id="filterRegion" onchange="applyFilters()">
+                    <option value="">Всі області</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>Категорія</label>
+                <select id="filterCategory" onchange="applyFilters()">
+                    <option value="">Всі категорії</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="filter-actions">
+            <button class="btn-reset" onclick="resetFilters()">Скинути</button>
+        </div>
+    </div>
+</div>
+
+
+<div class="news-list">
     {% for n in news_list %}
-        <div style="border:1px solid #ccc; padding:15px; margin:15px 0; border-radius:10px;">
+        <div class="news-card" data-region="{{ n.region }}" data-category="{{ n.category }}">
 
             {% if n.photo %}
                 <img src="{{ url_for('static', filename='uploads/' ~ n.photo) }}"
-                     style="width:200px; height:auto; border-radius:8px; margin-bottom:10px;">
+                     class="news-photo">
             {% endif %}
 
-            <h3>{{ n.title }}</h3>
-
-            <p><strong>Автор:</strong> {{ n.name }}</p>
-            <p><strong>Категорія:</strong> {{ n.category }}</p>
-            <p><strong>Регіон:</strong> {{ n.region }}</p>
-
-            <p>{{ n.text }}</p>
+            <div class="news-content">
+                <h3 class="news-title">{{ n.title }}</h3>
+                <p class="news-meta"><strong>Автор:</strong> {{ n.name }}</p>
+                <p class="news-meta"><strong>Категорія:</strong> {{ n.category }}</p>
+                <p class="news-meta"><strong>Регіон:</strong> {{ n.region }}</p>
+                <p class="news-meta"><strong>Дата:</strong> {{ n.date }}</p>
+                <p class="news-text">{{ n.text }}</p>
+            </div>
         </div>
     {% endfor %}
 
     {% if news_list|length == 0 %}
-        <p>Поки що новин немає.</p>
+        <p class="no-news">Поки що новин немає.</p>
     {% endif %}
 </div>
 
+<script>
+    // Збираємо унікальні регіони та категорії з карток новин
+    function populateFilters() {
+        const cards = document.querySelectorAll('.news-card');
+        const regions = new Set();
+        const categories = new Set();
+
+        cards.forEach(card => {
+            if (card.dataset.region) regions.add(card.dataset.region);
+            if (card.dataset.category) categories.add(card.dataset.category);
+        });
+
+        const regionSelect = document.getElementById('filterRegion');
+        const categorySelect = document.getElementById('filterCategory');
+        const capitalize = s => s.charAt(0).toUpperCase() + s.slice(1);
+
+        regions.forEach(region => {
+            const option = document.createElement('option');
+            option.value = region;
+            option.textContent = capitalize(region);
+            regionSelect.appendChild(option);
+        });
+
+        categories.forEach(category => {
+            const option = document.createElement('option');
+            option.value = category;
+            option.textContent = category;
+            categorySelect.appendChild(option);
+        });
+    }
+
+    // Фільтрування карток
+    function applyFilters() {
+        const region = document.getElementById('filterRegion').value;
+        const category = document.getElementById('filterCategory').value;
+        const cards = document.querySelectorAll('.news-card');
+
+        cards.forEach(card => {
+            const matchRegion = !region || card.dataset.region === region;
+            const matchCategory = !category || card.dataset.category === category;
+            card.style.display = matchRegion && matchCategory ? 'flex' : 'none';
+        });
+    }
+
+    // Скидання фільтрів
+    function resetFilters() {
+        document.getElementById('filterRegion').value = '';
+        document.getElementById('filterCategory').value = '';
+        document.querySelectorAll('.news-card').forEach(card => {
+            card.style.display = 'flex';
+        });
+    }
+
+    // Показати/приховати панель
+    function toggleFilters() {
+        document.getElementById('filterPanel').classList.toggle('open');
+    }
+
+    // Запускаємо при завантаженні сторінки
+    populateFilters();
+</script>
+    
 {% endblock %}
