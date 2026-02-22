@@ -10,7 +10,7 @@
         <button class="btn-filter btn-add" onclick="toggleFilters()">☰ Фільтри</button>
     </div>
     <p class="page-subtitle">Останні події та матеріали</p>
-    
+
     <div class="filter-panel" id="filterPanel">
         <div class="filter-row">
 
@@ -37,24 +37,39 @@
 
 
 <div class="news-list">
-    {% for n in news_list %}
-        <div class="news-card" data-region="{{ n.region }}" data-category="{{ n.category }}">
+{% for n in news_list %}
+    {% set anchor_id = 'news-' ~ (n.id if n.id is defined else loop.index) %}
 
-            {% if n.photo %}
-                <img src="{{ url_for('static', filename='uploads/' ~ n.photo) }}"
-                     class="news-photo">
-            {% endif %}
+    <div id="{{ anchor_id }}" class="news-card" data-region="{{ n.region }}" data-category="{{ n.category }}">
 
-            <div class="news-content">
-                <h3 class="news-title">{{ n.title }}</h3>
-                <p class="news-meta"><strong>Автор:</strong> {{ n.name }}</p>
-                <p class="news-meta"><strong>Категорія:</strong> {{ n.category }}</p>
-                <p class="news-meta"><strong>Регіон:</strong> {{ n.region }}</p>
-                <p class="news-meta"><strong>Дата:</strong> {{ n.date }}</p>
-                <p class="news-text">{{ n.text }}</p>
+        {% if n.photo %}
+            <img src="{{ url_for('static', filename='uploads/' ~ n.photo) }}" class="news-photo" alt="{{ n.title }}">
+        {% endif %}
+
+        <div class="news-content">
+            <h3 class="news-title">{{ n.title }}</h3>
+            <p class="news-meta"><strong>Автор:</strong> {{ n.name }}</p>
+            <p class="news-meta"><strong>Категорія:</strong> {{ n.category }}</p>
+            <p class="news-meta"><strong>Регіон:</strong> {{ n.region }}</p>
+            <p class="news-meta"><strong>Дата:</strong> {{ n.date }}</p>
+            <p class="news-text">{{ n.text }}</p>
+
+            <!-- ЄДИНИЙ БЛОК КНОПОК ВНИЗУ КАРТКИ -->
+            <div class="share-actions share-actions--bottom">
+                <!-- Використовуємо ті самі стилі, що у кнопки “☰ Фільтри” -->
+                <button class="btn-filter btn-add small-btn"
+                        onclick="shareNews('{{ n.title|escape }}', makeCardUrl('{{ anchor_id }}'))">
+                     Поділитися
+                </button>
+
+                <button class="btn-filter btn-add small-btn"
+                        onclick="copyLink(makeCardUrl('{{ anchor_id }}'))">
+                    Копіювати лінк
+                </button>
             </div>
         </div>
-    {% endfor %}
+    </div>
+{% endfor %}
 
     {% if news_list|length == 0 %}
         <p class="no-news">Поки що новин немає.</p>
@@ -119,8 +134,43 @@
         document.getElementById('filterPanel').classList.toggle('open');
     }
 
-    // Запускаємо при завантаженні сторінки
-    populateFilters();
+
+    function makeCardUrl(anchorId) {
+        return window.location.origin + window.location.pathname + '#' + anchorId;
+    }
+
+    async function shareNews(title, url) {
+        if (navigator.share) {
+            try { await navigator.share({ title, text: title, url }); }
+            catch (err) { console.debug('Share cancelled/failed:', err); }
+        } else {
+            copyLink(url, true);
+        }
+    }
+
+    async function copyLink(url, fromShareFallback = false) {
+        try {
+            await navigator.clipboard.writeText(url);
+            toast(fromShareFallback ? 'Посилання скопійовано (браузер не підтримує нативний шеринг).' : 'Посилання скопійовано!');
+        } catch (e) {
+            const temp = document.createElement('input');
+            temp.value = url;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+            toast('Посилання скопійовано!');
+        }
+    }
+
+    function toast(message) {
+        const t = document.createElement('div');
+        t.className = 'toast';
+        t.textContent = message;
+        document.body.appendChild(t);
+        requestAnimationFrame(() => t.classList.add('show'));
+        setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); }, 2000);
+    }
 </script>
-    
+
 {% endblock %}
