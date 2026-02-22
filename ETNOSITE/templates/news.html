@@ -11,7 +11,7 @@
     </div>
     <p class="page-subtitle">Останні події та матеріали</p>
     
-    <div class="filter-panel open" id="filterPanel">
+    <div class="filter-panel" id="filterPanel">
         <div class="filter-row">
 
             <div class="filter-group">
@@ -38,7 +38,7 @@
 
 <div class="news-list">
     {% for n in news_list %}
-        <div class="news-card">
+        <div class="news-card" data-region="{{ n.region }}" data-category="{{ n.category }}">
 
             {% if n.photo %}
                 <img src="{{ url_for('static', filename='uploads/' ~ n.photo) }}"
@@ -50,6 +50,7 @@
                 <p class="news-meta"><strong>Автор:</strong> {{ n.name }}</p>
                 <p class="news-meta"><strong>Категорія:</strong> {{ n.category }}</p>
                 <p class="news-meta"><strong>Регіон:</strong> {{ n.region }}</p>
+                <p class="news-meta"><strong>Дата:</strong> {{ n.date }}</p>
                 <p class="news-text">{{ n.text }}</p>
             </div>
         </div>
@@ -74,11 +75,12 @@
 
         const regionSelect = document.getElementById('filterRegion');
         const categorySelect = document.getElementById('filterCategory');
+        const capitalize = s => s.charAt(0).toUpperCase() + s.slice(1);
 
         regions.forEach(region => {
             const option = document.createElement('option');
             option.value = region;
-            option.textContent = region;
+            option.textContent = capitalize(region);
             regionSelect.appendChild(option);
         });
 
@@ -90,7 +92,7 @@
         });
     }
 
-        // Фільтрування карток
+    // Фільтрування карток
     function applyFilters() {
         const region = document.getElementById('filterRegion').value;
         const category = document.getElementById('filterCategory').value;
@@ -101,9 +103,9 @@
             const matchCategory = !category || card.dataset.category === category;
             card.style.display = matchRegion && matchCategory ? 'flex' : 'none';
         });
-
     }
-        // Скидання фільтрів
+
+    // Скидання фільтрів
     function resetFilters() {
         document.getElementById('filterRegion').value = '';
         document.getElementById('filterCategory').value = '';

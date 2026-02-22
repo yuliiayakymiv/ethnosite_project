@@ -439,6 +439,7 @@ h1 {
     font-family: 'KyivType';
     color: #666;
     margin-bottom: 5px;
+    text-transform: capitalize;
 }
 
 .news-text {
@@ -447,6 +448,7 @@ h1 {
     font-size: 16px;
     line-height: 1.6;
     color: #333;
+    text-transform: capitalize;
 }
 
 .page-subtitle {
