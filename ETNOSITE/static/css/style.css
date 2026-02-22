@@ -128,9 +128,10 @@ h1 {
 
 .buttons {
     display: flex;
-    gap: 130px;
-    margin-top: 190px;
-    justify-content: flex-start;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    margin-top: 160px;
 }
 
 .btn {
@@ -164,6 +165,7 @@ h1 {
     font-weight: 700;
     color: #8b0000;
     margin-bottom: 10px;
+    font-family: 'KyivType';
 }
 
 .page-subtitle {
@@ -579,4 +581,38 @@ h1 {
 .btn-reset:hover {
     background-color: #8b0000;
     color: #fff;
+}
+
+.navigation {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.navigation a {
+    text-decoration: none;
+    color: white;
+    background-color: #8b1a1a;
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+
+.btn-map {
+    color: #8b0000;
+    border: 2px solid #8b0000;
+    display: inline-block;
+    transition: all 0.3s ease;
+    background-color: transparent;
+    border-radius: 24px;
+    font-size: 45px;
+    padding: 40px 90px;
+    font-weight: bold;
+    font-family: 'KyivType';
+    display: inline-block;
+}
+
+.btn-map:hover {
+    background-color: #e8a0a0;
 }
