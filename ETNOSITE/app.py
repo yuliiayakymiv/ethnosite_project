@@ -1,8 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 import os
 import uuid
 from werkzeug.utils import secure_filename
-from database import init_db, add_news, get_all_news, get_news_by_region
+from database import init_db, add_news, get_all_news, get_news_by_region, update_reaction
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
@@ -61,6 +61,16 @@ def add():
 
     return render_template('add.html')
 
+@app.route('/react/<int:news_id>/<string:reaction_type>', methods=['POST'])
+def react(news_id, reaction_type):
+    # Отримуємо дію з JSON запиту (за замовчуванням 'add')
+    data = request.get_json() or {}
+    action = data.get('action', 'add')
+
+    new_counts = update_reaction(news_id, reaction_type, action)
+    if new_counts:
+        return jsonify(new_counts)
+    return jsonify({"error": "Update failed"}), 400
 
 if __name__ == '__main__':
     app.run(debug=True)

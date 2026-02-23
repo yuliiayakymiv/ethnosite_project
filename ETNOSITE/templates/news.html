@@ -54,6 +54,24 @@
             <p class="news-meta"><strong>Дата:</strong> {{ n.date }}</p>
             <p class="news-text">{{ n.text }}</p>
 
+            <div class="news-reactions" data-id="{{ n.id }}">
+                <button class="btn-react" onclick="sendReaction({{ n.id }}, 'hug')" title="Обійняти">
+                    🫂 <span class="count">{{ n.hug_count if n.hug_count else 0 }}</span>
+                </button>
+                <button class="btn-react" onclick="sendReaction({{ n.id }}, 'fire')" title="Вогник">
+                    🔥 <span class="count">{{ n.fire_count if n.fire_count else 0 }}</span>
+                </button>
+                <button class="btn-react" onclick="sendReaction({{ n.id }}, 'up')" title="Клас">
+                    👍 <span class="count">{{ n.up_count if n.up_count else 0 }}</span>
+                </button>
+                <button class="btn-react" onclick="sendReaction({{ n.id }}, 'like')" title="Серденько">
+                    ❤️ <span class="count">{{ n.like_count if n.like_count else 0 }}</span>
+                </button>
+                <button class="btn-react" onclick="sendReaction({{ n.id }}, 'love')" title="В захваті">
+                    😍 <span class="count">{{ n.love_count if n.love_count else 0 }}</span>
+                </button>
+            </div>
+
             <div class="share-actions share-actions--bottom">
                 <button class="btn-filter btn-add small-btn"
                         onclick="shareNews('{{ n.title|escape }}', makeCardUrl('{{ anchor_id }}'))">
@@ -181,6 +199,50 @@
         requestAnimationFrame(() => t.classList.add('show'));
         setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); }, 2000);
     }
+
+    async function sendReaction(newsId, type) {
+    const storageKey = `reacted_${newsId}_${type}`;
+    const hasReacted = localStorage.getItem(storageKey);
+    const action = hasReacted ? 'remove' : 'add';
+
+    try {
+        const response = await fetch(`/react/${newsId}/${type}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: action })
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            const container = document.querySelector(`.news-reactions[data-id="${newsId}"]`);
+            const mapping = { 'hug': 1, 'fire': 2, 'up': 3, 'like': 4, 'love': 5 };
+            const btn = container.querySelector(`button:nth-child(${mapping[type]})`);
+
+            btn.querySelector('.count').textContent = data[type];
+
+            if (action === 'add') {
+                localStorage.setItem(storageKey, 'true');
+                btn.classList.add('voted');
+                // Анімація тільки при додаванні
+                showFloatingEmoji(btn);
+            } else {
+                localStorage.removeItem(storageKey);
+                btn.classList.remove('voted');
+            }
+        }
+    } catch (err) {
+        console.error("Помилка:", err);
+    }
+}
+
+function showFloatingEmoji(btn) {
+    const emoji = btn.innerText.split(' ')[0];
+    const flyer = document.createElement('span');
+    flyer.textContent = emoji;
+    flyer.className = 'floating-emoji';
+    btn.appendChild(flyer);
+    setTimeout(() => flyer.remove(), 800);
+}
 </script>
 
 {% endblock %}

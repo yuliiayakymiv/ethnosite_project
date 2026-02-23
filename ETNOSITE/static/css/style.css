@@ -661,3 +661,58 @@ h1 {
     opacity: 1;
     transform: translateX(-50%) translateY(-4px);
 }
+
+.news-reactions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.btn-react {
+    position: relative; /* Важливо для анімації */
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-family: 'KyivType', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: 0.2s;
+}
+
+.btn-react:hover {
+    border-color: #8b0000;
+    background: #fef5f5;
+}
+
+.floating-emoji {
+    position: absolute;
+    left: 50%;
+    top: -10px;
+    transform: translateX(-50%);
+    pointer-events: none;
+    animation: flyUp 0.8s ease-out forwards;
+}
+
+@keyframes flyUp {
+    0% { transform: translateX(-50%) translateY(0); opacity: 1; }
+    100% { transform: translateX(-50%) translateY(-50px); opacity: 0; }
+}
+
+/* Коли реакція активна, робимо її яскравішою або додаємо фон */
+.btn-react.voted {
+    background-color: #8b0000; /* Темно-червоний фон */
+    color: white;              /* Білий текст */
+    border-color: #8b0000;
+}
+
+.btn-react.voted .count {
+    color: white;
+}
+
+.btn-react {
+    transition: all 0.3s ease;
+}
