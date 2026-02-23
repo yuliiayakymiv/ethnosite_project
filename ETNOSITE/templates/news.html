@@ -54,9 +54,7 @@
             <p class="news-meta"><strong>Дата:</strong> {{ n.date }}</p>
             <p class="news-text">{{ n.text }}</p>
 
-            <!-- ЄДИНИЙ БЛОК КНОПОК ВНИЗУ КАРТКИ -->
             <div class="share-actions share-actions--bottom">
-                <!-- Використовуємо ті самі стилі, що у кнопки “☰ Фільтри” -->
                 <button class="btn-filter btn-add small-btn"
                         onclick="shareNews('{{ n.title|escape }}', makeCardUrl('{{ anchor_id }}'))">
                      Поділитися
