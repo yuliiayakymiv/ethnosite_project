@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 import os
 import uuid
 from werkzeug.utils import secure_filename
-from database import init_db, add_news, get_all_news
+from database import init_db, add_news, get_all_news, get_news_by_region
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
@@ -25,8 +25,16 @@ def index():
 
 @app.route('/news')
 def news():
-    news_list = get_all_news()
-    return render_template('news.html', news_list=news_list)
+    region = request.args.get('region', '')
+    if region:
+        news_list = get_news_by_region(region)
+    else:
+        news_list = get_all_news()
+    return render_template('news.html', news_list=news_list, selected_region=region)
+
+@app.route('/map')
+def map_page():
+    return render_template('map.html')
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():

@@ -41,3 +41,13 @@ def get_all_news():
     news = c.execute('SELECT * FROM news ORDER BY timestamp DESC').fetchall()
     conn.close()
     return news
+
+def get_news_by_region(region):
+    conn = sqlite3.connect('news.db')
+    conn.row_factory = sqlite3.Row
+    c = conn.cursor()
+    news = c.execute(
+        'SELECT * FROM news WHERE region=? ORDER BY timestamp DESC', (region,)
+    ).fetchall()
+    conn.close()
+    return news

@@ -128,9 +128,10 @@ h1 {
 
 .buttons {
     display: flex;
-    gap: 130px;
-    margin-top: 190px;
-    justify-content: flex-start;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    margin-top: 160px;
 }
 
 .btn {
@@ -164,6 +165,7 @@ h1 {
     font-weight: 700;
     color: #8b0000;
     margin-bottom: 10px;
+    font-family: 'KyivType';
 }
 
 .page-subtitle {
@@ -579,9 +581,7 @@ h1 {
 .btn-reset:hover {
     background-color: #8b0000;
     color: #fff;
-<<<<<<< Updated upstream
 }
-=======
 }
 
 .navigation {
@@ -616,6 +616,7 @@ h1 {
 
 .btn-map:hover {
     background-color: #e8a0a0;
+
 }
 
 .news-content {
@@ -660,4 +661,3 @@ h1 {
     opacity: 1;
     transform: translateX(-50%) translateY(-4px);
 }
->>>>>>> Stashed changes
