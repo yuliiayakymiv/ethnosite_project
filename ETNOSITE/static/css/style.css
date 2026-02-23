@@ -90,7 +90,7 @@ header {
 }
 
 h1 {
-    font-family: 'KyivType'; 
+    font-family: 'KyivType';
     font-size: 60px;
     font-weight: 700;
     color: #8b0000;
@@ -348,7 +348,7 @@ h1 {
     .form-row {
         flex-direction: column;
     }
-    
+
     .form-right {
         flex: 1;
     }
@@ -515,11 +515,11 @@ h1 {
     padding: 25px;
     margin-top: 15px;
     width: fit-content;
-    position: absolute;  
+    position: absolute;
     right: 60px;   /* ← відступ як padding у right-panel */
     top: 330px;    /* ← підберіть під висоту вашого заголовку */
     z-index: 100;        /* ← щоб панель була поверх інших елементів */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);  
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* Відкривається тільки після кліку */
@@ -582,6 +582,7 @@ h1 {
     background-color: #8b0000;
     color: #fff;
 }
+}
 
 .navigation {
     display: flex;
@@ -615,4 +616,48 @@ h1 {
 
 .btn-map:hover {
     background-color: #e8a0a0;
+
+}
+
+.news-content {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Контейнер кнопок внизу картки */
+.share-actions--bottom {
+    margin-top: auto;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding-top: 10px;
+}
+
+.small-btn {
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 12px;
+    min-width: 90px;
+}
+
+.toast {
+    position: fixed;
+    left: 50%;
+    bottom: 24px;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.90);
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.2;
+    z-index: 99999;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .2s ease, transform .2s ease;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-4px);
 }
