@@ -88,3 +88,18 @@ def update_reaction(news_id, reaction_type, action='add'):
         "hug": res[0], "fire": res[1], "up": res[2],
         "like": res[3], "love": res[4]
     }
+
+def get_news_by_id(news_id):
+    conn = sqlite3.connect('news.db')
+    c = conn.cursor()
+
+    # using fetchone() because we need only one
+    res = c.execute('SELECT * FROM news WHERE id = ?', (news_id, )).fetchone()
+
+    conn.close()
+
+    if res:
+        # transforming result into dict for easier usage by HTML
+        columns = [column[0] for column in c.description]
+        return dict(zip(columns, res))
+    return None

@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify
 import os
 import uuid
 from werkzeug.utils import secure_filename
-from database import init_db, add_news, get_all_news, get_news_by_region, update_reaction
+from database import init_db, add_news, get_all_news, get_news_by_region, update_reaction, get_news_by_id
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
@@ -71,6 +71,13 @@ def react(news_id, reaction_type):
     if new_counts:
         return jsonify(new_counts)
     return jsonify({"error": "Update failed"}), 400
+
+@app.route('/news/<int:news_id>')
+def news_detail(news_id):
+    news_item = get_news_by_id(news_id)
+    if news_item:
+        return render_template('news_detail.html', n=news_item)
+    return 'Новину не знайдено', 404
 
 if __name__ == '__main__':
     app.run(debug=True)

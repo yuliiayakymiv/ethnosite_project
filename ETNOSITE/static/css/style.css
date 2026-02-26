@@ -411,13 +411,28 @@ h1 {
 
 .news-card {
     display: flex;
-    gap: 20px;
-    font-family: 'KyivType';
-    border: 1px solid #ddd;
-    padding: 20px;
-    border-radius: 12px;
+    gap: 30px;
+    padding: 25px;
     background-color: #fef5f5;
+    border-radius: 15px;
+    border: 1px solid #ddd;
+
+    width: 100%;           /* Картка на всю ширину */
+    max-width: 100%;       /* Не дозволяємо виходити за межі */
+    overflow: hidden;      /* Обрізаємо все, що вилазить */
     align-items: flex-start;
+}
+
+.news-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;               /* Дозволяє контенту займати залишок місця */
+    min-width: 0;          /*  важливо для flex-контейнерів, щоб текст не розпирав їх */
+}
+
+.news-text {
+    word-wrap: break-word; /* Перенос довгих слів */
+    overflow-wrap: break-word;
 }
 
 .news-photo {
@@ -715,4 +730,66 @@ h1 {
 
 .btn-react {
     transition: all 0.3s ease;
+}
+
+
+/* --- Нова кнопка "Читати повністю" (прозора з контуром) --- */
+.btn-read-more {
+    display: inline-block;
+    padding: 10px 20px;
+    font-family: 'KyivType', sans-serif; /* Фірмовий шрифт */
+    font-size: 16px;
+    font-weight: bold;
+    color: #8b0000;              /* Колір тексту як наша заливка */
+    background-color: transparent; /* Прозорий фон */
+    border: 2px solid #8b0000;   /* Контур кольору заливки */
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-read-more:hover {
+    background-color: #fef5f5;   /* Світло-рожевий фон при наведенні */
+    color: #6d0000;              /* Темніший колір тексту */
+    border-color: #6d0000;       /* Темніший контур */
+    transform: translateY(-2px); /* Легке підняття */
+}
+
+/* --- Стиль для активної кнопки реакції (коли голос поставлено) --- */
+/* Тепер вона стає повністю залитою вашим фірмовим кольором */
+.btn-react.voted {
+    background-color: #8b0000;   /* Заливка вашим кольором */
+    color: white;                /* Білий текст і смайлик */
+    border-color: #8b0000;
+}
+
+/* Окремо прописуємо колір для лічильника всередині активної кнопки */
+.btn-react.voted .count {
+    color: white;
+}
+
+/* Плавний перехід кольорів */
+.btn-react {
+    transition: all 0.3s ease;
+}
+
+.btn-cancel {
+    background-color: transparent;
+    color: #8b0000;
+    border: 2px solid #8b0000;
+    padding: 15px 50px;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    font-family: 'KyivType';
+}
+
+.btn-cancel:hover {
+    background-color: #8b0000;
+    color: #fff; /* При наведенні фон стає бордовим, а текст білим */
 }
