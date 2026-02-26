@@ -1,16 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for
 import os
 import uuid
-<<<<<<< HEAD
-# from werkzeug.utils import secure_filename
-
-=======
-from werkzeug.utils import secure_filename
 from database import engine, Base, SessionLocal
 from models import News
 from datetime import datetime
 
->>>>>>> origin/main
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
