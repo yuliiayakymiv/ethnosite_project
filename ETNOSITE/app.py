@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 import os
 import uuid
-from werkzeug.utils import secure_filename
+# from werkzeug.utils import secure_filename
 from database import init_db, add_news, get_all_news, get_news_by_region
 
 app = Flask(__name__)
