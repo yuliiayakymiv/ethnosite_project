@@ -66,27 +66,34 @@ def add():
 def react(news_id, reaction_type):
     from database import SessionLocal, News
     db = SessionLocal()
+
+    # Шукаємо новину в БД
     news_item = db.query(News).filter(News.id == news_id).first()
 
     if not news_item:
         db.close()
         return jsonify({"error": "News not found"}), 404
 
-    # Action може бути 'add' або 'remove'
+    # Отримуємо дію (додати чи видалити реакцію)
     data = request.json
     action = data.get('action', 'add')
     increment = 1 if action == 'add' else -1
 
-    # оновлюємо потрібний лічильник
+    # Формуємо назву поля (наприклад, hug_count)
     field_name = f"{reaction_type}_count"
+
+    # Перевіряємо, чи є таке поле в моделі News
     if hasattr(news_item, field_name):
         current_val = getattr(news_item, field_name) or 0
+        # Оновлюємо значення (не даємо впасти нижче нуля)
         setattr(news_item, field_name, max(0, current_val + increment))
         db.commit()
 
-    result = {reaction_type: getattr(news_item, field_name)}
+    # Повертаємо оновлене число
+    updated_count = getattr(news_item, field_name)
     db.close()
-    return jsonify(result)
+
+    return jsonify({reaction_type: updated_count})
 
 @app.route('/news/<int:news_id>')
 def news_detail(news_id):
