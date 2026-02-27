@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container page-container" style="display: block; padding: 40px 20px;">
+    <a href="{{ url_for('news') }}" class="btn-cancel" style="text-decoration: none; margin-bottom: 30px; display: inline-block; font-family: 'KyivType', sans-serif;">
+        ← Назад до всіх новин
+    </a>
+
+    <article class="news-detail" style="max-width: 1000px; margin: 0 auto;">
+        <h1 class="page-title" style="font-family: 'KyivType', sans-serif; font-size: 48px; color: #8b0000; margin-bottom: 10px; text-align: left;">
+            {{ n.title }}
+        </h1>
+
+        <p class="news-meta" style="font-family: 'KyivType', sans-serif; font-size: 16px; color: #666; margin-bottom: 30px; text-align: left;">
+            Опубліковано: {{ n.date }} | Автор: {{ n.name }}
+        </p>
+
+        {% if n.photo %}
+            <div class="news-photo-container" style="width: 100%; background-color: #fef5f5; border-radius: 15px; overflow: hidden; margin-bottom: 40px; display: flex; justify-content: center; align-items: center; border: 1px solid #ddd;">
+                <img src="{{ url_for('static', filename='uploads/' ~ n.photo) }}"
+                     class="news-photo-large"
+                     alt="{{ n.title }}"
+                     style="max-width: 100%; max-height: 80vh; object-fit: contain; display: block;">
+            </div>
+        {% endif %}
+
+        <div class="news-full-text" style="font-family: 'KyivType', sans-serif; font-size: 18px; line-height: 1.8; color: #333; white-space: pre-wrap; text-align: left; margin-bottom: 40px; padding: 0;">
+            {{ n.text }}
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid #ddd; margin-bottom: 20px;">
+        <p style="font-family: 'KyivType', sans-serif; font-size: 16px; color: #666; text-align: left;">
+            <strong>Регіон:</strong>
+            <span style="text-transform: capitalize;">{{ n.region }}</span>
+            | <strong>Категорія:</strong> {{ n.category }}
+        </p>
+    </article>
+</div>
+{% endblock %}

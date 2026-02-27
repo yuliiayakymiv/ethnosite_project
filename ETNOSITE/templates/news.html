@@ -47,10 +47,18 @@
         {% endif %}
 
         <div class="news-content">
-            <h3 class="news-title">{{ n.title }}</h3>
+            <h3 class="news-title">
+                <a href="{{ url_for('news_detail', news_id=n.id) }}" style="text-decoration: none; color: inherit;">
+                    {{ n.title }}
+                </a>
+            </h3>
+
             <p class="news-meta"><strong>Автор:</strong> {{ n.name }}</p>
             <p class="news-meta"><strong>Категорія:</strong> {{ n.category }}</p>
-            <p class="news-meta"><strong>Регіон:</strong> {{ n.region }}</p>
+            <p class="news-meta">
+                <strong>Регіон:</strong>
+                <span style="text-transform: capitalize;">{{ n.region }}</span>
+            </p>
             <p class="news-meta"><strong>Дата:</strong> {{ n.date }}</p>
             <p class="news-text">{{ n.text }}</p>
 
@@ -72,17 +80,22 @@
                 </button>
             </div>
 
-            <div class="share-actions share-actions--bottom">
-                <button class="btn-filter btn-add small-btn"
-                        onclick="shareNews('{{ n.title|escape }}', makeCardUrl('{{ anchor_id }}'))">
-                     Поділитися
-                </button>
+                <div class="share-actions share-actions--bottom" style="margin-top: 5px; display: flex; flex-direction: column; gap: 15px; align-items: flex-start; padding-left: 0; margin-left: 0;">
 
-                <button class="btn-filter btn-add small-btn"
-                        onclick="copyLink(makeCardUrl('{{ anchor_id }}'))">
-                    Копіювати лінк
-                </button>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-start;">
+                    <button class="btn-filter btn-add small-btn" onclick="shareNews('{{ n.title|escape }}', makeCardUrl('{{ anchor_id }}'))">
+                        Поділитися
+                    </button>
+                    <button class="btn-filter btn-add small-btn" onclick="copyLink(makeCardUrl('{{ anchor_id }}'))">
+                        Копіювати лінк
+                    </button>
+                </div>
+
+                <a href="{{ url_for('news_detail', news_id=n.id) }}" class="btn-cancel" style="text-decoration: none; padding: 10px 30px; font-size: 16px; text-align: center; width: fit-content; margin-left: 0;">
+                    Читати повністю
+                </a>
             </div>
+
         </div>
     </div>
 {% endfor %}
@@ -115,7 +128,8 @@
         Array.from(regions).sort().forEach(region => {
             const option = document.createElement('option');
             option.value = region;
-            option.textContent = formatText(region); // текст для користувача
+            // Використовуємо функцію formatText, щоб перша літера була великою
+            option.textContent = formatText(region);
             regionSelect.appendChild(option);
         });
 
