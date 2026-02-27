@@ -47,24 +47,55 @@
         {% endif %}
 
         <div class="news-content">
-            <h3 class="news-title">{{ n.title }}</h3>
+            <h3 class="news-title">
+                <a href="{{ url_for('news_detail', news_id=n.id) }}" style="text-decoration: none; color: inherit;">
+                    {{ n.title }}
+                </a>
+            </h3>
+
             <p class="news-meta"><strong>Автор:</strong> {{ n.name }}</p>
             <p class="news-meta"><strong>Категорія:</strong> {{ n.category }}</p>
-            <p class="news-meta"><strong>Регіон:</strong> {{ n.region }}</p>
+            <p class="news-meta">
+                <strong>Регіон:</strong>
+                <span style="text-transform: capitalize;">{{ n.region }}</span>
+            </p>
             <p class="news-meta"><strong>Дата:</strong> {{ n.date }}</p>
             <p class="news-text">{{ n.text }}</p>
 
-            <div class="share-actions share-actions--bottom">
-                <button class="btn-filter btn-add small-btn"
-                        onclick="shareNews('{{ n.title|escape }}', makeCardUrl('{{ anchor_id }}'))">
-                     Поділитися
+            <div class="news-reactions" data-id="{{ n.id }}">
+                <button class="btn-react" onclick="sendReaction({{ n.id }}, 'hug')" title="Обійняти">
+                    🫂 <span class="count">{{ n.hug_count if n.hug_count else 0 }}</span>
                 </button>
-
-                <button class="btn-filter btn-add small-btn"
-                        onclick="copyLink(makeCardUrl('{{ anchor_id }}'))">
-                    Копіювати лінк
+                <button class="btn-react" onclick="sendReaction({{ n.id }}, 'fire')" title="Вогник">
+                    🔥 <span class="count">{{ n.fire_count if n.fire_count else 0 }}</span>
+                </button>
+                <button class="btn-react" onclick="sendReaction({{ n.id }}, 'up')" title="Клас">
+                    👍 <span class="count">{{ n.up_count if n.up_count else 0 }}</span>
+                </button>
+                <button class="btn-react" onclick="sendReaction({{ n.id }}, 'like')" title="Серденько">
+                    ❤️ <span class="count">{{ n.like_count if n.like_count else 0 }}</span>
+                </button>
+                <button class="btn-react" onclick="sendReaction({{ n.id }}, 'love')" title="В захваті">
+                    😍 <span class="count">{{ n.love_count if n.love_count else 0 }}</span>
                 </button>
             </div>
+
+                <div class="share-actions share-actions--bottom" style="margin-top: 5px; display: flex; flex-direction: column; gap: 15px; align-items: flex-start; padding-left: 0; margin-left: 0;">
+
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-start;">
+                    <button class="btn-filter btn-add small-btn" onclick="shareNews('{{ n.title|escape }}', makeCardUrl('{{ anchor_id }}'))">
+                        Поділитися
+                    </button>
+                    <button class="btn-filter btn-add small-btn" onclick="copyLink(makeCardUrl('{{ anchor_id }}'))">
+                        Копіювати лінк
+                    </button>
+                </div>
+
+                <a href="{{ url_for('news_detail', news_id=n.id) }}" class="btn-cancel" style="text-decoration: none; padding: 10px 30px; font-size: 16px; text-align: center; width: fit-content; margin-left: 0;">
+                    Читати повністю
+                </a>
+            </div>
+
         </div>
     </div>
 {% endfor %}
@@ -75,32 +106,38 @@
 </div>
 
 <script>
-    // Збираємо унікальні регіони та категорії з карток новин
+    document.addEventListener('DOMContentLoaded', function() {
+        populateFilters();
+    });
+
     function populateFilters() {
         const cards = document.querySelectorAll('.news-card');
         const regions = new Set();
         const categories = new Set();
 
         cards.forEach(card => {
-            if (card.dataset.region) regions.add(card.dataset.region);
-            if (card.dataset.category) categories.add(card.dataset.category);
+            if (card.dataset.region) regions.add(card.dataset.region.trim());
+            if (card.dataset.category) categories.add(card.dataset.category.trim());
         });
 
         const regionSelect = document.getElementById('filterRegion');
         const categorySelect = document.getElementById('filterCategory');
-        const capitalize = s => s.charAt(0).toUpperCase() + s.slice(1);
 
-        regions.forEach(region => {
+        const formatText = s => s.charAt(0).toUpperCase() + s.slice(1);
+
+        Array.from(regions).sort().forEach(region => {
             const option = document.createElement('option');
             option.value = region;
-            option.textContent = capitalize(region);
+            // Використовуємо функцію formatText, щоб перша літера була великою
+            option.textContent = formatText(region);
             regionSelect.appendChild(option);
         });
 
-        categories.forEach(category => {
+        // Сортуємо та додаємо категорії
+        Array.from(categories).sort().forEach(category => {
             const option = document.createElement('option');
             option.value = category;
-            option.textContent = category;
+            option.textContent = formatText(category);
             categorySelect.appendChild(option);
         });
     }
@@ -112,13 +149,22 @@
         const cards = document.querySelectorAll('.news-card');
 
         cards.forEach(card => {
-            const matchRegion = !region || card.dataset.region === region;
-            const matchCategory = !category || card.dataset.category === category;
-            card.style.display = matchRegion && matchCategory ? 'flex' : 'none';
+            // Приводимо все до одного формату для порівняння
+            const cardRegion = card.dataset.region;
+            const cardCategory = card.dataset.category;
+
+            const matchRegion = !region || cardRegion === region;
+            const matchCategory = !category || cardCategory === category;
+
+            if (matchRegion && matchCategory) {
+                card.style.display = 'flex';
+            } else {
+                card.style.display = 'none';
+            }
         });
     }
 
-    // Скидання фільтрів
+    // Решта функцій залишаються без змін
     function resetFilters() {
         document.getElementById('filterRegion').value = '';
         document.getElementById('filterCategory').value = '';
@@ -127,11 +173,9 @@
         });
     }
 
-    // Показати/приховати панель
     function toggleFilters() {
         document.getElementById('filterPanel').classList.toggle('open');
     }
-
 
     function makeCardUrl(anchorId) {
         return window.location.origin + window.location.pathname + '#' + anchorId;
@@ -149,7 +193,7 @@
     async function copyLink(url, fromShareFallback = false) {
         try {
             await navigator.clipboard.writeText(url);
-            toast(fromShareFallback ? 'Посилання скопійовано (браузер не підтримує нативний шеринг).' : 'Посилання скопійовано!');
+            toast(fromShareFallback ? 'Посилання скопійовано!' : 'Посилання скопійовано!');
         } catch (e) {
             const temp = document.createElement('input');
             temp.value = url;
@@ -169,6 +213,50 @@
         requestAnimationFrame(() => t.classList.add('show'));
         setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); }, 2000);
     }
+
+    async function sendReaction(newsId, type) {
+    const storageKey = `reacted_${newsId}_${type}`;
+    const hasReacted = localStorage.getItem(storageKey);
+    const action = hasReacted ? 'remove' : 'add';
+
+    try {
+        const response = await fetch(`/react/${newsId}/${type}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: action })
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            const container = document.querySelector(`.news-reactions[data-id="${newsId}"]`);
+            const mapping = { 'hug': 1, 'fire': 2, 'up': 3, 'like': 4, 'love': 5 };
+            const btn = container.querySelector(`button:nth-child(${mapping[type]})`);
+
+            btn.querySelector('.count').textContent = data[type];
+
+            if (action === 'add') {
+                localStorage.setItem(storageKey, 'true');
+                btn.classList.add('voted');
+                // Анімація тільки при додаванні
+                showFloatingEmoji(btn);
+            } else {
+                localStorage.removeItem(storageKey);
+                btn.classList.remove('voted');
+            }
+        }
+    } catch (err) {
+        console.error("Помилка:", err);
+    }
+}
+
+function showFloatingEmoji(btn) {
+    const emoji = btn.innerText.split(' ')[0];
+    const flyer = document.createElement('span');
+    flyer.textContent = emoji;
+    flyer.className = 'floating-emoji';
+    btn.appendChild(flyer);
+    setTimeout(() => flyer.remove(), 800);
+}
 </script>
 
 {% endblock %}
