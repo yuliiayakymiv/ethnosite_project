@@ -28,12 +28,61 @@
             {{ n.text }}
         </div>
 
+        <div class="detail-actions" style="display:flex; gap:10px; margin:16px 0;">
+        <a href="#comments" class="btn-filter btn-add small-btn" style="text-decoration:none;">  Коментувати</a>
+        <button class="btn-filter btn-add small-btn"
+                onclick="shareNews('{{ n.title | e }}', window.location.href)">
+            Поділитися
+        </button>
+        <button class="btn-filter btn-add small-btn" onclick="copyLink(window.location.href)">
+            Копіювати лінк
+        </button>
+        </div>
+
+
         <hr style="border: 0; border-top: 1px solid #ddd; margin-bottom: 20px;">
         <p style="font-family: 'KyivType', sans-serif; font-size: 16px; color: #666; text-align: left;">
             <strong>Регіон:</strong>
             <span style="text-transform: capitalize;">{{ n.region }}</span>
             | <strong>Категорія:</strong> {{ n.category }}
         </p>
+
+        <div id="comments" style="margin-top: 32px;"></div>
+
+        <section aria-labelledby="comments-title">
+        <h2 id="comments-title" style="margin-bottom:12px;">Коментарі</h2>
+
+        {% if comments and comments|length > 0 %}
+            <ul class="list-unstyled" style="margin:0 0 24px; padding:0;">
+            {% for c in comments %}
+                <li style="padding:12px; border:1px solid #eee; border-radius:8px; margin-bottom:8px; list-style:none;">
+                <div style="font-weight:600">{{ c.name }}</div>
+                <div style="color:#6b7280; font-size:.9rem;">{{ c.created_at }}</div>
+                <p style="margin:8px 0 0; white-space:pre-line;">{{ c.text }}</p>
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p style="color:#6b7280">Ще немає коментарів. Будьте першими!</p>
+        {% endif %}
+
+        <!-- Форма додавання коментаря -->
+        <div style="border-top:1px solid #eee; padding-top:16px;">
+            <h3 style="margin-bottom:12px;">Залишити коментар</h3>
+            <form action="{{ url_for('add_comment', news_id=n.id) }}#comments" method="post">
+            <div style="margin-bottom:8px; max-width: 420px;">
+                <label for="name">Ваше ім’я</label><br>
+                <input id="name" name="name" type="text" required class="form-control" placeholder="Ім’я">
+            </div>
+            <div style="margin-bottom:8px; max-width: 640px;">
+                <label for="text">Коментар</label><br>
+                <textarea id="text" name="text" rows="4" required class="form-control" placeholder="Напишіть коментар…"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Надіслати</button>
+            </form>
+        </div>
+        </section>
+
     </article>
 </div>
 {% endblock %}

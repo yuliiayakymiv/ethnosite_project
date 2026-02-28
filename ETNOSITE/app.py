@@ -1,13 +1,12 @@
-
-
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, redirect, url_for, jsonify, abort
 import os
 import uuid
 from werkzeug.utils import secure_filename
 
 # Імпортуємо тільки необхідне
-from database import init_db, add_news, get_all_news, get_news_by_region
+from database import init_db, add_news, get_all_news, get_news_by_region, SessionLocal, News
 
+from comments_store import get_comments, add_comment
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
