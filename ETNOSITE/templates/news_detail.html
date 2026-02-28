@@ -29,14 +29,14 @@
         </div>
 
         <div class="detail-actions" style="display:flex; gap:10px; margin:16px 0;">
-        <a href="#comments" class="btn-filter btn-add small-btn" style="text-decoration:none;">  Коментувати</a>
-        <button class="btn-filter btn-add small-btn"
-                onclick="shareNews('{{ n.title | e }}', window.location.href)">
-            Поділитися
-        </button>
-        <button class="btn-filter btn-add small-btn" onclick="copyLink(window.location.href)">
-            Копіювати лінк
-        </button>
+            <a href="#comments" class="btn-filter btn-add small-btn" style="text-decoration:none;">
+              Коментувати
+            </a>
+
+            <button class="btn-filter btn-add small-btn" onclick="copyLink(getCleanUrl())">
+              Копіювати лінк
+            </button>
+
         </div>
 
 
@@ -63,7 +63,7 @@
                 {% endfor %}
             </div>
         {% else %}
-            <p style="color:#b67820">Ще немає коментарів. Будьте першим!</p>
+            <p style="color:#474747">Ще немає коментарів. Почніть обговорення!</p>
         {% endif %}
 
 
@@ -86,4 +86,59 @@
 
     </article>
 </div>
+
+<script>
+  function getCleanUrl() {
+    return window.location.origin + window.location.pathname;
+  }
+
+  async function copyLink(url, fromShareFallback = false) {
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(url);
+        toast('Посилання скопійовано!');
+        return;
+      }
+      const temp = document.createElement('input');
+      temp.value = url;
+      temp.setAttribute('readonly', '');
+      temp.style.position = 'absolute';
+      temp.style.left = '-9999px';
+      document.body.appendChild(temp);
+      temp.select();
+      document.execCommand('copy');
+      document.body.removeChild(temp);
+      toast('Посилання скопійовано!');
+    } catch (e) {
+      console.debug('Clipboard copy failed:', e);
+      toast('Не вдалося скопіювати');
+    }
+  }
+
+  function toast(message) {
+    const t = document.createElement('div');
+    t.textContent = message;
+    Object.assign(t.style, {
+      position: 'fixed',
+      left: '50%',
+      bottom: '24px',
+      transform: 'translateX(-50%)',
+      background: '#333',
+      color: '#fff',
+      padding: '10px 14px',
+      borderRadius: '10px',
+      fontSize: '14px',
+      zIndex: 9999,
+      opacity: '0',
+      transition: 'opacity .2s ease'
+    });
+    document.body.appendChild(t);
+    requestAnimationFrame(() => t.style.opacity = '1');
+    setTimeout(() => {
+      t.style.opacity = '0';
+      setTimeout(() => t.remove(), 200);
+    }, 1600);
+  }
+</script>
+
 {% endblock %}
