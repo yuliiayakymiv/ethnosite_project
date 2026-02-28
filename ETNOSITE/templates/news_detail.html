@@ -69,7 +69,7 @@
         <!-- Форма додавання коментаря -->
         <div style="border-top:1px solid #eee; padding-top:16px;">
             <h3 style="margin-bottom:12px;">Залишити коментар</h3>
-            <form action="{{ url_for('add_comment', news_id=n.id) }}#comments" method="post">
+            <form action="{{ url_for('add_comment_route', news_id=n.id) }}#comments" method="post">
             <div style="margin-bottom:8px; max-width: 420px;">
                 <label for="name">Ваше ім’я</label><br>
                 <input id="name" name="name" type="text" required class="form-control" placeholder="Ім’я">
@@ -78,7 +78,7 @@
                 <label for="text">Коментар</label><br>
                 <textarea id="text" name="text" rows="4" required class="form-control" placeholder="Напишіть коментар…"></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Надіслати</button>
+            <button type="submit" class="btn-filter btn-add small-btn">Надіслати</button>
             </form>
         </div>
         </section>
