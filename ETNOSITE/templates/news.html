@@ -83,7 +83,15 @@
                 <div class="share-actions share-actions--bottom" style="margin-top: 5px; display: flex; flex-direction: column; gap: 15px; align-items: flex-start; padding-left: 0; margin-left: 0;">
 
                 <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-start;">
-                    <button class="btn-filter btn-add small-btn" onclick="shareNews('{{ n.title|escape }}', makeCardUrl('{{ anchor_id }}'))">
+
+                    <a href="{{ url_for('news_detail', news_id=n.id) }}#comments"
+                        class="btn-filter btn-add small-btn"
+                        style="text-decoration:none;">
+                          Коментувати
+                    </a>
+
+                    <button class="btn-filter btn-add small-btn"
+                            onclick="shareNews('{{ n.title | e }}', makeCardUrl('{{ anchor_id }}'))">
                         Поділитися
                     </button>
                     <button class="btn-filter btn-add small-btn" onclick="copyLink(makeCardUrl('{{ anchor_id }}'))">

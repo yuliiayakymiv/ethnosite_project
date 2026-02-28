@@ -1,13 +1,12 @@
-
-
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, redirect, url_for, jsonify, abort
 import os
 import uuid
 from werkzeug.utils import secure_filename
 
 # Імпортуємо тільки необхідне
-from database import init_db, add_news, get_all_news, get_news_by_region
+from database import init_db, add_news, get_all_news, get_news_by_region, SessionLocal, News
 
+from comments_store import get_comments, add_comment
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
@@ -66,7 +65,6 @@ def add():
 
 @app.route('/react/<int:news_id>/<string:reaction_type>', methods=['POST'])
 def react(news_id, reaction_type):
-    from database import SessionLocal, News
     db = SessionLocal()
 
     # Шукаємо новину в БД
@@ -77,7 +75,7 @@ def react(news_id, reaction_type):
         return jsonify({"error": "News not found"}), 404
 
     # Отримуємо дію (додати чи видалити реакцію)
-    data = request.json
+    data = request.json or {}
     action = data.get('action', 'add')
     increment = 1 if action == 'add' else -1
 
@@ -99,16 +97,35 @@ def react(news_id, reaction_type):
 
 @app.route('/news/<int:news_id>')
 def news_detail(news_id):
-    from database import SessionLocal, News
     db = SessionLocal()
     # Шукаємо новину в базі за її ID
     news_item = db.query(News).filter(News.id == news_id).first()
     db.close()
 
-    if news_item:
-        return render_template('news_detail.html', n=news_item)
-    else:
-        return "Новину не знайдено", 404@app.route('/news/<int:news_id>')
+    if not news_item:
+        return "Новину не знайдено", 404
+
+    comments = get_comments(news_id)  # з comments_store.py
+    return render_template('news_detail.html', n=news_item, comments=comments)
+
+
+@app.post('/news/<int:news_id>/comment')
+def add_comment_route(news_id):
+    db = SessionLocal()
+    news_item = db.query(News).filter(News.id == news_id).first()
+    db.close()
+
+    if not news_item:
+        abort(404)
+
+    name = (request.form.get('name') or '').strip()
+    text = (request.form.get('text') or '').strip()
+
+    if name and text:
+        add_comment(news_id, name, text)
+
+    # Повертаємось на секцію #comments, щоб одразу побачити результат
+    return redirect(url_for('news_detail', news_id=news_id) + '#comments')
 
 
 if __name__ == '__main__':
