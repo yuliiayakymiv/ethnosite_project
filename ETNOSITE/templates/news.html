@@ -90,10 +90,6 @@
                           Коментувати
                     </a>
 
-                    <button class="btn-filter btn-add small-btn"
-                            onclick="shareNews('{{ n.title | e }}', makeCardUrl('{{ anchor_id }}'))">
-                        Поділитися
-                    </button>
                     <button class="btn-filter btn-add small-btn" onclick="copyLink(makeCardUrl('{{ anchor_id }}'))">
                         Копіювати лінк
                     </button>
@@ -172,7 +168,6 @@
         });
     }
 
-    // Решта функцій залишаються без змін
     function resetFilters() {
         document.getElementById('filterRegion').value = '';
         document.getElementById('filterCategory').value = '';
@@ -187,15 +182,6 @@
 
     function makeCardUrl(anchorId) {
         return window.location.origin + window.location.pathname + '#' + anchorId;
-    }
-
-    async function shareNews(title, url) {
-        if (navigator.share) {
-            try { await navigator.share({ title, text: title, url }); }
-            catch (err) { console.debug('Share cancelled/failed:', err); }
-        } else {
-            copyLink(url, true);
-        }
     }
 
     async function copyLink(url, fromShareFallback = false) {
