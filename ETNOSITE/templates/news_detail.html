@@ -28,12 +28,117 @@
             {{ n.text }}
         </div>
 
+        <div class="detail-actions" style="display:flex; gap:10px; margin:16px 0;">
+            <a href="#comments" class="btn-filter btn-add small-btn" style="text-decoration:none;">
+              Коментувати
+            </a>
+
+            <button class="btn-filter btn-add small-btn" onclick="copyLink(getCleanUrl())">
+              Копіювати лінк
+            </button>
+
+        </div>
+
+
         <hr style="border: 0; border-top: 1px solid #ddd; margin-bottom: 20px;">
         <p style="font-family: 'KyivType', sans-serif; font-size: 16px; color: #666; text-align: left;">
             <strong>Регіон:</strong>
             <span style="text-transform: capitalize;">{{ n.region }}</span>
             | <strong>Категорія:</strong> {{ n.category }}
         </p>
+
+        <div id="comments" style="margin-top: 32px;"></div>
+
+        <section aria-labelledby="comments-title">
+        <h2 id="comments-title" style="font-family: 'KyivType', sans-serif; font-size: 30px; color: #8b0000; margin-bottom: 10px; text-align: left;">Коментарі</h2>
+
+        {% if comments and comments|length > 0 %}
+            <div class="comments-list">
+                {% for c in comments %}
+                    <div class="comment-item">
+                        <div class="comment-author">{{ c.name }}</div>
+                        <div class="comment-date">{{ c.created_at }}</div>
+                        <div class="comment-text">{{ c.text }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p style="color:#474747">Ще немає коментарів. Почніть обговорення!</p>
+        {% endif %}
+
+
+        <!-- Форма додавання коментаря -->
+        <div class="comment-form-box">
+            <h3 style="font-family: 'KyivType', sans-serif; font-size: 30px; color: #8b0000; margin-bottom: 10px; text-align: left;">Залишити коментар</h3>
+            <form action="{{ url_for('add_comment_route', news_id=n.id) }}#comments" method="post">
+            <div style="font-family: 'KyivType', sans-serif; font-size: 16px; color: #000000; margin-bottom: 30px; text-align: left;">
+                <label for="name">Ваше ім’я</label><br>
+                <input id="name" name="name" type="text" required class="form-control" placeholder="Ім’я">
+            </div>
+            <div style="font-family: 'KyivType', sans-serif; font-size: 16px; color: #000000; margin-bottom: 30px; text-align: left;">
+                <label for="text">Коментар</label><br>
+                <textarea id="text" name="text" rows="4" required class="form-control" placeholder="Напишіть коментар…"></textarea>
+            </div>
+            <button type="submit" class="btn-filter btn-add small-btn">Надіслати</button>
+            </form>
+        </div>
+        </section>
+
     </article>
 </div>
+
+<script>
+  function getCleanUrl() {
+    return window.location.origin + window.location.pathname;
+  }
+
+  async function copyLink(url, fromShareFallback = false) {
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(url);
+        toast('Посилання скопійовано!');
+        return;
+      }
+      const temp = document.createElement('input');
+      temp.value = url;
+      temp.setAttribute('readonly', '');
+      temp.style.position = 'absolute';
+      temp.style.left = '-9999px';
+      document.body.appendChild(temp);
+      temp.select();
+      document.execCommand('copy');
+      document.body.removeChild(temp);
+      toast('Посилання скопійовано!');
+    } catch (e) {
+      console.debug('Clipboard copy failed:', e);
+      toast('Не вдалося скопіювати');
+    }
+  }
+
+  function toast(message) {
+    const t = document.createElement('div');
+    t.textContent = message;
+    Object.assign(t.style, {
+      position: 'fixed',
+      left: '50%',
+      bottom: '24px',
+      transform: 'translateX(-50%)',
+      background: '#333',
+      color: '#fff',
+      padding: '10px 14px',
+      borderRadius: '10px',
+      fontSize: '14px',
+      zIndex: 9999,
+      opacity: '0',
+      transition: 'opacity .2s ease'
+    });
+    document.body.appendChild(t);
+    requestAnimationFrame(() => t.style.opacity = '1');
+    setTimeout(() => {
+      t.style.opacity = '0';
+      setTimeout(() => t.remove(), 200);
+    }, 1600);
+  }
+</script>
+
 {% endblock %}
