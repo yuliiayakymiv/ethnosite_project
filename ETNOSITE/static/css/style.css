@@ -780,6 +780,15 @@ h1 {
     margin-top: 20px;
 }
 
+.sub-motto {
+    font-family: 'Veles';
+    font-size: 22px;
+    color: #444;
+    margin-top: 10px;   /* ← ОПУСКАЄМО НИЖЧЕ */
+    margin-left: 0;
+    text-align: left;
+}
+
 /* для мобільного */
 
 /* планшет */
