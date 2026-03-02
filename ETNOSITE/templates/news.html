@@ -61,7 +61,7 @@
             </p>
             <p class="news-meta"><strong>Дата:</strong> {{ n.date }}</p>
 
-            <p class="news-text">{{ n.text | truncate(50, True, '...') }}</p>
+            <p class="news-text">{{ n.text | truncate(150, True, '...') }}</p>
 
             <div class="news-reactions" data-id="{{ n.id }}">
                 <button class="btn-react" onclick="sendReaction({{ n.id }}, 'hug')" title="Обійняти">
