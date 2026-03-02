@@ -107,8 +107,6 @@ h1 {
     line-height: 1.6;
 }
 
-
-
 .navigation {
     margin-top: 30px;
     display: flex;
@@ -831,6 +829,14 @@ h1 {
     header { margin-bottom: 20px; }
     h1 { font-size: 30px; margin-bottom: 10px;}
     .motto { font-size: 20px; }
+    .sub-motto {
+        font-family: 'Veles';
+        font-size: 14px;
+        color: #444;
+        margin-top: 10px;   /* ← ОПУСКАЄМО НИЖЧЕ */
+        margin-left: 0;
+        text-align: left;
+    }
     .corner-image { width: 50px; height: 50px; }
 
     /* Головні кнопки */
