@@ -19,11 +19,14 @@
             <img src="{{ url_for('static', filename='css/photos/mini-vyshyvka.jpg') }}" alt="Декор" class="corner-image">
             <header>
                 <h1>ЕТНОСАЙТ</h1>
-                <p class="motto">Зберігаємо минуле — творимо майбутнє</p>
-                <p class="sub-motto">"Червоне — то любов, а чорне — то журба..."</p>
+                <p class="motto">"Червоне — то любов, а чорне — то журба..."</p>
+
+                {% if request.endpoint == 'index' %}
+                    <p class="sub-motto">зберігаємо минуле — творимо майбутнє</p>
+                {% endif %}
+
             </header>
 
-            <!-- changing pages -->
             {% block content %}{% endblock %}
         </div>
 

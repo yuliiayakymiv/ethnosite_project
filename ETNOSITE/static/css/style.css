@@ -100,7 +100,7 @@ h1 {
 
 
 .motto {
-    font-size: 43px;
+    font-size: 40px;
     font-family: 'Veles';
     color: #333;
     font-weight: bold;
@@ -780,9 +780,9 @@ h1 {
 
 .sub-motto {
     font-family: 'Veles';
-    font-size: 22px;
-    color: #444;
-    margin-top: 10px;   /* ← ОПУСКАЄМО НИЖЧЕ */
+    font-size: 30px;
+    color: #8b0000;
+    margin-top: 10px;
     margin-left: 0;
     text-align: left;
 }
