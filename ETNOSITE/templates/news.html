@@ -7,33 +7,31 @@
     <!-- Кнопка справа вгорі -->
     <div class="filter-top">
         <h2 class="page-title">Новини</h2>
-        <button class="btn-filter btn-add" onclick="toggleFilters()">☰ Фільтри</button>
-    </div>
+        <div class="filter-btn-wrapper">
+            <button class="btn-filter btn-add" onclick="toggleFilters()">☰ Фільтри</button>
+            <div class="filter-panel" id="filterPanel">
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label>Область</label>
+                        <select id="filterRegion" onchange="applyFilters()">
+                            <option value="">Всі області</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Категорія</label>
+                        <select id="filterCategory" onchange="applyFilters()">
+                            <option value="">Всі категорії</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="filter-actions">
+                    <button class="btn-reset" onclick="resetFilters()">Скинути</button>
+                </div>
+            </div><!-- /filter-panel -->
+        </div><!-- /filter-btn-wrapper -->
+    </div><!-- /filter-top -->
     <p class="page-subtitle">Останні події та матеріали</p>
-
-    <div class="filter-panel" id="filterPanel">
-        <div class="filter-row">
-
-            <div class="filter-group">
-                <label>Область</label>
-                <select id="filterRegion" onchange="applyFilters()">
-                    <option value="">Всі області</option>
-                </select>
-            </div>
-
-            <div class="filter-group">
-                <label>Категорія</label>
-                <select id="filterCategory" onchange="applyFilters()">
-                    <option value="">Всі категорії</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="filter-actions">
-            <button class="btn-reset" onclick="resetFilters()">Скинути</button>
-        </div>
-    </div>
-</div>
+</div><!-- /filter-wrapper -->
 
 
 <div class="news-list">
