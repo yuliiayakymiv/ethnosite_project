@@ -1,5 +1,3 @@
-
-
 @font-face {
     font-family: 'Veles';
     src: url('fonts/Veles-Regular.0.9.2.otf') format('opentype');
@@ -853,4 +851,235 @@ h1 {
     margin-top: 10px;
     margin-left: 0;
     text-align: left;
+}
+
+
+/* ========== МОБІЛЬНА ВЕРСІЯ (max-width: 600px) ========== */
+@media (max-width: 600px) {
+
+    /* --- Загальний лейаут --- */
+    .page-container {
+        flex-direction: column;
+    }
+
+    .left-panel {
+        width: 100%;
+        height: auto;
+        position: static;
+    }
+
+    .vyshyvka {
+        width: 100%;
+        height: 120px;
+        object-fit: cover;
+        object-position: top;
+    }
+
+    .right-panel {
+        width: 100%;
+        padding: 16px;
+    }
+
+    .corner-image {
+        width: 50px;
+        height: 50px;
+    }
+
+    h1 {
+        font-size: 26px;
+    }
+
+    .motto {
+        font-size: 16px;
+    }
+
+    .sub-motto {
+        font-size: 14px;
+    }
+
+    /* --- Головна сторінка --- */
+    .buttons {
+        flex-direction: column;
+        gap: 16px;
+        margin-top: 24px;
+        align-items: stretch;
+    }
+
+    .btn {
+        font-size: 20px;
+        padding: 16px 20px;
+        text-align: center;
+        width: 100%;
+    }
+
+    .btn-map {
+        font-size: 20px;
+        padding: 16px 20px;
+        width: 100%;
+        text-align: center;
+    }
+
+    /* --- Сторінка новин --- */
+    .page-title {
+        font-size: 30px;
+    }
+
+    .page-subtitle {
+        font-size: 15px;
+    }
+
+    .filter-top {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .btn-filter {
+        padding: 12px 20px;
+        font-size: 16px;
+        border-radius: 12px;
+    }
+
+    .filter-panel {
+        right: 0;
+        left: 0;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .filter-row {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .filter-group select {
+        min-width: unset;
+        width: 100%;
+    }
+
+    .news-card {
+        flex-direction: column;
+        gap: 16px;
+        padding: 16px;
+    }
+
+    .news-photo {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .news-title {
+        font-size: 18px;
+    }
+
+    .news-reactions {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .btn-react {
+        padding: 6px 10px;
+        font-size: 14px;
+    }
+
+    .small-btn {
+        padding: 8px 14px;
+        font-size: 13px;
+    }
+
+    .btn-cancel {
+        padding: 10px 20px;
+        font-size: 15px;
+    }
+
+    /* --- Сторінка деталей новини --- */
+    .news-detail {
+        padding: 0;
+    }
+
+    .news-detail h1.page-title {
+        font-size: 26px !important;
+    }
+
+    .news-photo-container {
+        border-radius: 10px !important;
+        margin-bottom: 20px !important;
+    }
+
+    .news-full-text {
+        font-size: 15px !important;
+        line-height: 1.7 !important;
+    }
+
+    .detail-actions {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    /* --- Коментарі --- */
+    .comment-form-box {
+        padding: 14px;
+    }
+
+    .comment-form-box h3 {
+        font-size: 20px !important;
+    }
+
+    .form-control {
+        font-size: 15px;
+        padding: 10px;
+    }
+
+    .comment-item {
+        padding: 10px 12px;
+    }
+
+    .comment-author {
+        font-size: 14px;
+    }
+
+    .comment-text {
+        font-size: 14px;
+    }
+
+    /* --- Форма додавання новини --- */
+    .add-news-form {
+        padding: 20px;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .form-right {
+        flex: 1;
+        width: 100%;
+    }
+
+    .photo-upload {
+        height: 200px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .btn-submit,
+    .btn-cancel {
+        width: 100%;
+        text-align: center;
+        padding: 14px 20px;
+    }
+
+    /* --- Карта --- */
+    .map-container {
+        padding: 10px;
+    }
+
+    #ukraine-map {
+        width: 100%;
+        height: auto;
+    }
 }
